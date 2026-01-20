@@ -1,10 +1,5 @@
-# runtime C/C++/Fortran & OpenMP
 libstdc++6
 libgcc-s1
 libgfortran5
 libgomp1
-libquadmath0
-
-# vaak nodig voor numerieke libs
-libopenblas0
-liblapack3
+libblas3
