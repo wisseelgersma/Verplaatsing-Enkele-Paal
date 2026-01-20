@@ -9,7 +9,7 @@ Auteur: W. Elgersma (origineel)
 Opschoning/packaging: 2026-01-20
 """
 
-import openseespy.opensees as ops
+import openseespylinux as ops
 import numpy as np
 import csv
 import os
