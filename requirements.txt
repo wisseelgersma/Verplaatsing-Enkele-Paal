@@ -1,4 +1,4 @@
 streamlit>=1.31
 numpy
 matplotlib
-openseespy
+openseespy==3.7.1.2
