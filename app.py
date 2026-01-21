@@ -147,8 +147,6 @@ def _build_cfg_from_state(base_cfg):
         pile['EA'] = float(st.session_state.get('EA_in', float(_safe_get(base_cfg,['pile','EA'],0.0) or 0.0)))
         pile['EI'] = float(st.session_state.get('EI_in', float(_safe_get(base_cfg,['pile','EI'],0.0) or 0.0)))
 
-    mesh = {'n_elements': 500}  # Hardcoded: mesh resolution nu bepaald door analysis.n_steps
-
     load = {
         'lateral_head_load': float(st.session_state.get('H', float(_safe_get(base_cfg,['load','lateral_head_load'],80.0)))),
         'head_moment_z': float(st.session_state.get('M', float(_safe_get(base_cfg,['load','head_moment_z'],0.0)))),
@@ -190,7 +188,6 @@ def _build_cfg_from_state(base_cfg):
     return {
         'soil': soil,
         'pile': pile,
-        'mesh': mesh,
         'load': load,
         'boundary': boundary,
         'analysis': analysis,
