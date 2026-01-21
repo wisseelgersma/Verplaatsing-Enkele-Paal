@@ -314,8 +314,8 @@ with _top_right:
             )
             st.caption("Bewaar scenario's door je invoer als JSON te downloaden.")
 
-soil_tab, pile_tab, load_tab, boundary_tab, analysis_tab, output_tab = st.tabs(
-    ["Bodem", "Paal", "Belasting", "Randvoorwaarden", "Analyse", "Output"]
+soil_tab, pile_tab, mesh_tab, load_tab, boundary_tab, analysis_tab, output_tab = st.tabs(
+    ["Bodem", "Paal", "Mesh", "Belasting", "Randvoorwaarden", "Analyse", "Output"]
 )
 
 # ---------------------
@@ -577,6 +577,27 @@ with pile_tab:
             st.number_input("Axiale stijfheid EA (kN)", value=float(st.session_state.EA_in), step=1e4, format="%.3e", key='EA_in')
         with c5:
             st.number_input("Buigstijfheid EI (kN·m²)", value=float(st.session_state.EI_in), step=1e4, format="%.3e", key='EI_in')
+
+
+# -----
+# Mesh
+# -----
+with mesh_tab:
+    st.subheader("Mesh")
+    c_mesh = base_cfg.get('mesh', {})
+    
+    if 'n_el' not in st.session_state:
+        st.session_state.n_el = int(c_mesh.get('n_elements', 500))
+    
+    st.number_input(
+        "Aantal elementen",
+        value=int(st.session_state.n_el),
+        step=10,
+        min_value=10,
+        max_value=5000,
+        help="Aantal eindige elementen voor de paal. Meer elementen = betere nauwkeurigheid, maar langzamere berekening.",
+        key='n_el'
+    )
 
 
 # ---------
