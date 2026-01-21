@@ -138,12 +138,6 @@ CONFIG = {
         'EI': None,  # idem
     },
     # =============================
-    # MESH
-    # =============================
-    'mesh': {
-        'n_elements': 500,  # int aantal beam-elementen over de paal (meer = nauwkeuriger, trager)
-    },
-    # =============================
     # LOAD (Belasting)
     # =============================
     'load': {
@@ -430,9 +424,9 @@ def build_and_run(config):
     top_py_override = soil_cfg.get('top_py_eval_depth_m', None)
     if top_py_override is not None:
         top_py_override = float(top_py_override)
-    # PAAL/MESH/BELASTING
+    # PAAL/BELASTING
     L = float(config['pile']['length'])
-    n_el = int(config['mesh']['n_elements'])
+    n_el = 500  # Hardcoded: aantal beam-elementen (mesh resolution)
     H_load = float(config['load']['lateral_head_load'])
     M_head = float(config['load'].get('head_moment_z', 0.0))
     fix_vertical_dof = bool(config['boundary'].get('fix_vertical_dof', True))
