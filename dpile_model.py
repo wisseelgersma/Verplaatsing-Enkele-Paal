@@ -426,7 +426,8 @@ def build_and_run(config):
         top_py_override = float(top_py_override)
     # PAAL/BELASTING
     L = float(config['pile']['length'])
-    n_el = 500  # Hardcoded: aantal beam-elementen (mesh resolution)
+    n_steps = int(config['analysis']['n_steps'])
+    n_el = n_steps  # Aantal elementen = aantal stappen (mesh resolution gekoppeld aan load steps)
     H_load = float(config['load']['lateral_head_load'])
     M_head = float(config['load'].get('head_moment_z', 0.0))
     fix_vertical_dof = bool(config['boundary'].get('fix_vertical_dof', True))
