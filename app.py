@@ -147,7 +147,7 @@ def _build_cfg_from_state(base_cfg):
         pile['EA'] = float(st.session_state.get('EA_in', float(_safe_get(base_cfg,['pile','EA'],0.0) or 0.0)))
         pile['EI'] = float(st.session_state.get('EI_in', float(_safe_get(base_cfg,['pile','EI'],0.0) or 0.0)))
 
-    mesh = {'n_elements': int(st.session_state.get('n_el', int(_safe_get(base_cfg,['mesh','n_elements'],500))))}
+    mesh = {'n_elements': 500}  # Hardcoded: mesh resolution nu bepaald door analysis.n_steps
 
     load = {
         'lateral_head_load': float(st.session_state.get('H', float(_safe_get(base_cfg,['load','lateral_head_load'],80.0)))),
@@ -218,8 +218,6 @@ def _apply_cfg_to_state(cfg, base_cfg):
     st.session_state.override_EA_EI = bool(_safe_get(cfg, ['pile','override_EA_EI'], False) or ptype=='user_defined')
     st.session_state.EA_in = float(_safe_get(cfg, ['pile','EA'], _safe_get(base_cfg,['pile','EA'],0.0) or 0.0))
     st.session_state.EI_in = float(_safe_get(cfg, ['pile','EI'], _safe_get(base_cfg,['pile','EI'],0.0) or 0.0))
-
-    st.session_state.n_el = int(_safe_get(cfg, ['mesh','n_elements'], _safe_get(base_cfg,['mesh','n_elements'],500)))
 
     st.session_state.H = float(_safe_get(cfg, ['load','lateral_head_load'], _safe_get(base_cfg,['load','lateral_head_load'],80.0)))
     st.session_state.M = float(_safe_get(cfg, ['load','head_moment_z'], _safe_get(base_cfg,['load','head_moment_z'],0.0)))
@@ -314,8 +312,8 @@ with _top_right:
             )
             st.caption("Bewaar scenario's door je invoer als JSON te downloaden.")
 
-soil_tab, pile_tab, mesh_tab, load_tab, boundary_tab, analysis_tab, output_tab = st.tabs(
-    ["Bodem", "Paal", "Mesh", "Belasting", "Randvoorwaarden", "Analyse", "Output"]
+soil_tab, pile_tab, load_tab, boundary_tab, analysis_tab, output_tab = st.tabs(
+    ["Bodem", "Paal", "Belasting", "Randvoorwaarden", "Analyse", "Output"]
 )
 
 # ---------------------
@@ -577,27 +575,6 @@ with pile_tab:
             st.number_input("Axiale stijfheid EA (kN)", value=float(st.session_state.EA_in), step=1e4, format="%.3e", key='EA_in')
         with c5:
             st.number_input("Buigstijfheid EI (kN·m²)", value=float(st.session_state.EI_in), step=1e4, format="%.3e", key='EI_in')
-
-
-# -----
-# Mesh
-# -----
-with mesh_tab:
-    st.subheader("Mesh")
-    c_mesh = base_cfg.get('mesh', {})
-    
-    if 'n_el' not in st.session_state:
-        st.session_state.n_el = int(c_mesh.get('n_elements', 500))
-    
-    st.number_input(
-        "Aantal elementen",
-        value=int(st.session_state.n_el),
-        step=10,
-        min_value=10,
-        max_value=5000,
-        help="Aantal eindige elementen voor de paal. Meer elementen = betere nauwkeurigheid, maar langzamere berekening.",
-        key='n_el'
-    )
 
 
 # ---------
